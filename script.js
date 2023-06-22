@@ -1,22 +1,22 @@
-const express = require('express');
-const app = express();
-const port = 3000; // Replace with your desired port number
+document.getElementById('myForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission
 
-// Configure Express to parse JSON data
-app.use(express.json());
+    var formElement = event.target;
+    var formData = new FormData(formElement);
 
-// Handle the JotForm webhook request
-app.post('/webhook', (req, res) => {
-  const formData = req.body; // Access the form data sent by JotForm
+    // Send form data to JotForm
+    axios.post('https://your-jotform-webhook-url', formData)
+      .then(function(response) {
+        // Handle successful submission
+        var data = response.data; // Optional: Retrieve response data from JotForm
 
-  // Process the form data and generate your document here
-  // You can use a suitable library or API for document generation
-
-  // Return a response to JotForm (status 200 OK)
-  res.sendStatus(200);
-});
-
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+        // Populate the form answers into the document
+        document.getElementById('name').textContent = formData.get('name');
+        document.getElementById('email').textContent = formData.get('email');
+        document.getElementById('message').textContent = formData.get('message');
+      })
+      .catch(function(error) {
+        // Handle submission error
+        console.error('Form submission failed:', error);
+      });
+  });
