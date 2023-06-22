@@ -5,7 +5,7 @@ document.getElementById('myForm').addEventListener('submit', function(event) {
     var formData = new FormData(formElement);
 
     // Send form data to JotForm
-    axios.post('https://your-jotform-webhook-url', formData)
+    axios.post('https://form.jotform.com/231306033534040', formData)
       .then(function(response) {
         // Handle successful submission
         var data = response.data; // Optional: Retrieve response data from JotForm
